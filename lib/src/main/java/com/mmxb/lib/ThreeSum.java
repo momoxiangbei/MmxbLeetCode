@@ -1,6 +1,7 @@
 package com.mmxb.lib;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +29,34 @@ public class ThreeSum {
         System.out.println(threeSum(nums).toString());
     }
 
+//    public static List<List<Integer>> threeSum2(int[] nums) {
+//        List<List<Integer>> result = new ArrayList<>();
+//        Arrays.sort(nums);  // 排序
+//        if (nums.length < 3) {
+//            return result;
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = i + 1; j < input.size() - 1; j++) {
+//                for (int k = j + 1; k < input.size(); k++) {
+//                    if (k < kStartIndex) {
+//                        continue;
+//                    }
+//                    if (input.get(i) + input.get(j) + input.get(k) == 0) {
+//                        List<Integer> list = new ArrayList<>();
+//                        list.add(input.get(i));
+//                        list.add(input.get(j));
+//                        list.add(input.get(k));
+//                        if (!result.contains(list)) {
+//                            result.add(list);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return result;
+//    }
 
+    // 超时了
     public static List<List<Integer>> threeSum(int[] nums) {
         int bigZeroNum = Integer.MAX_VALUE;
         List<Integer> input = new ArrayList<>();
