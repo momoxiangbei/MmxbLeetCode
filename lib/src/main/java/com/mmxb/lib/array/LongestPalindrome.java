@@ -7,11 +7,11 @@ package com.mmxb.lib.array;
  * 给你一个字符串 s，找到 s 中最长的回文子串。
  * <p>
  * 来源：力扣（LeetCode）
- * 链接：https://leetcode-cn.com/problems/binary-search
+ * 链接：https://leetcode-cn.com/problems/longest-palindromic-substring/
  */
 public class LongestPalindrome {
     public static void main(String[] args) {
-        String input = "abbb";
+        String input = "ac";
         System.out.println(longestPalindrome(input));
     }
 
@@ -19,59 +19,29 @@ public class LongestPalindrome {
         if (s == null || s.length() == 0) {
             return "";
         }
-        if (s.length() == 1) {
-            return s;
-        }
-        if (s.length() == 2) {
-            return s.charAt(0) == s.charAt(1) ? s : String.valueOf(s.charAt(0));
-        }
-        String subString = "";
-        for (int i = 1; i < s.length() - 1; i++) {
-            if (i + 1 < s.length() && s.charAt(i) == s.charAt(i + 1)) {
-                if (i + 2 == s.length() && subString.length() < 2) {
-                    subString = s.substring(i, i + 2);
-                    continue;
-                }
-                int moveNum1 = getSub2(s, i);
-                if (subString.length() < moveNum1 * 2 + 2) {
-                    subString = s.substring(i - moveNum1, i + 1 + moveNum1 + 1);
-                }
-            }
-            int moveNum2 = getSub1(s, i);
-            if (subString.length() < moveNum2 * 2 + 1) {
-                subString = s.substring(i - moveNum2, i + moveNum2 + 1);
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int length1 = getSubLength(s, i, i);
+            int length2 = getSubLength(s, i, i + 1);
+            int length = Math.max(length1, length2);
+            if (length > end - start) {
+                start = i - (length - 1) / 2;     // note2 奇偶数不同是通过 (length - 1) / 2 计算出的
+                end = i + length / 2;
             }
         }
-        return subString;  // substring 左闭右开区间
+        return s.substring(start, end + 1);  // substring 左闭右开区间
     }
 
-    public static int getSub1(String s, int index) {
-        int moveNum = 0;
-        while (s.charAt(index - 1 - moveNum) == (s.charAt(index + 1 + moveNum))) {
-            if (index - 1 - moveNum == 0 && index + 1 + moveNum == s.length() - 1) {
-                moveNum++;
-                break;
-            }
-            if (index - 1 - moveNum == 0 || index + 1 + moveNum == s.length() - 1) {
-                break;
-            }
-            moveNum++;
+    /**
+     * 中心扩散法
+     */
+    public static int getSubLength(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            --left;
+            ++right;
         }
-        return moveNum;
-    }
-
-    public static int getSub2(String s, int index) {
-        int moveNum = 0;
-        while (s.charAt(index - 1 - moveNum) == (s.charAt(index + 2 + moveNum))) {
-            if (index - 1 + moveNum == 0 && index + 2 + moveNum == s.length() - 1) {
-                moveNum++;
-                break;
-            }
-            if (index - 1 + moveNum == 0 || index + 2 + moveNum == s.length() - 1) {
-                break;
-            }
-            moveNum++;
-        }
-        return moveNum;
+        // note1 left为-1时没有关系 : s= abad  left=1 right =1 =>  left=-1 right=3  result 3
+        return right - left - 1;   //
     }
 }
