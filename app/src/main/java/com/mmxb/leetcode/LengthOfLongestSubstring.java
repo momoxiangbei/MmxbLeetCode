@@ -11,7 +11,7 @@ public class LengthOfLongestSubstring {
     }
 
     public static int lengthOfLongestSubstring(String s) {
-        if (s == null || s.equals("")) {  //
+        if (s == null || s.equals("")) {  
             return 0;
         }
         if (s.length() == 1) {
@@ -56,6 +56,7 @@ public class LengthOfLongestSubstring {
         }
         return max;
     }
+
 }
 
 
